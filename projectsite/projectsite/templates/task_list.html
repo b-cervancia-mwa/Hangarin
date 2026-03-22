@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tasks - Hangarin{% endblock %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content" style="background-color: #ADD8E6;">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="text-white pb-2 fw-bold">Tasks</h2>
+                        <h5 class="text-white op-7 mb-2">Manage all your tasks</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">All Tasks</h4>
+                                <a href="{% url 'task-create' %}" class="btn btn-primary btn-round ml-auto">
+                                    <i class="fa fa-plus"></i> New Task
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% if object_list %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Category</th>
+                                                <th>Priority</th>
+                                                <th>Deadline</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for task in object_list %}
+                                            <tr>
+                                                <td><strong>{{ task.title }}</strong></td>
+                                                <td>
+                                                    <span class="badge badge-{% if task.status == 'Completed' %}success{% elif task.status == 'In Progress' %}info{% else %}secondary{% endif %}">
+                                                        {{ task.status }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ task.category.name|default:"—" }}</td>
+                                                <td>
+                                                    {% if task.priority %}
+                                                        <span class="badge badge-warning">{{ task.priority.name }}</span>
+                                                    {% else %}
+                                                        <span class="text-muted">—</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ task.deadline|date:"M d, Y" }}</td>
+                                                <td>
+                                                    <a href="{% url 'task-update' task.pk %}" class="btn btn-sm btn-info">Edit</a>
+                                                    <a href="{% url 'task-delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% if is_paginated %}
+                                    {% include 'includes/pagination.html' %}
+                                {% endif %}
+                            {% else %}
+                                <div class="text-center py-5">
+                                    <h5>No tasks found</h5>
+                                    <p>Create your first task</p>
+                                    <a href="{% url 'task-create' %}" class="btn btn-primary">Create Task</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

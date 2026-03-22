@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Priorities - Hangarin{% endblock %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content" style="background-color: #ADD8E6;">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="text-white pb-2 fw-bold">Priorities</h2>
+                        <h5 class="text-white op-7 mb-2">Manage task priorities</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">All Priorities</h4>
+                                <a href="{% url 'priority-create' %}" class="btn btn-primary btn-round ml-auto">
+                                    <i class="fa fa-plus"></i> New Priority
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% if object_list %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for priority in object_list %}
+                                            <tr>
+                                                <td><strong>{{ priority.name }}</strong></td>
+                                                <td>
+                                                    <a href="{% url 'priority-update' priority.pk %}" class="btn btn-sm btn-info">Edit</a>
+                                                    <a href="{% url 'priority-delete' priority.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% if is_paginated %}
+                                    {% include 'includes/pagination.html' %}
+                                {% endif %}
+                            {% else %}
+                                <div class="text-center py-5">
+                                    <h5>No priorities found</h5>
+                                    <p>Create your first priority</p>
+                                    <a href="{% url 'priority-create' %}" class="btn btn-primary">Create Priority</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

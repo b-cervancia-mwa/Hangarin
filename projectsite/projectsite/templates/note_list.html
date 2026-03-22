@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notes - Hangarin{% endblock %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content" style="background-color: #ADD8E6;">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="text-white pb-2 fw-bold">Notes</h2>
+                        <h5 class="text-white op-7 mb-2">Manage task notes</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">All Notes</h4>
+                                <a href="{% url 'note-create' %}" class="btn btn-primary btn-round ml-auto">
+                                    <i class="fa fa-plus"></i> New Note
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% if object_list %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Task</th>
+                                                <th>Content</th>
+                                                <th>Created</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for note in object_list %}
+                                            <tr>
+                                                <td><strong>{{ note.task.title }}</strong></td>
+                                                <td>{{ note.content|truncatewords:15 }}</td>
+                                                <td>{{ note.created_at|date:"M d, Y" }}</td>
+                                                <td>
+                                                    <a href="{% url 'note-update' note.pk %}" class="btn btn-sm btn-info">Edit</a>
+                                                    <a href="{% url 'note-delete' note.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% if is_paginated %}
+                                    {% include 'includes/pagination.html' %}
+                                {% endif %}
+                            {% else %}
+                                <div class="text-center py-5">
+                                    <h5>No notes found</h5>
+                                    <p>Create your first note</p>
+                                    <a href="{% url 'note-create' %}" class="btn btn-primary">Create Note</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

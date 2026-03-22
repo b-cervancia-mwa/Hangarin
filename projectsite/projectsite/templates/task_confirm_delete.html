@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Task - Hangarin{% endblock %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content" style="background-color: #ADD8E6;">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="text-white pb-2 fw-bold">Delete Task</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Warning!</strong> This action cannot be undone. All associated subtasks and notes will also be deleted.
+                            </div>
+                            <p>Are you sure you want to delete this task?</p>
+                            <p><strong>{{ object.title }}</strong></p>
+                            
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete Task</button>
+                                <a href="{% url 'task-list' %}" class="btn btn-secondary">Cancel</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
