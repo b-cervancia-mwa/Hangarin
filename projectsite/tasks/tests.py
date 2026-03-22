@@ -116,3 +116,7 @@ class SeededDataTests(TestCase):
 
     def test_social_login_skips_confirmation_page(self):
         self.assertTrue(settings.SOCIALACCOUNT_LOGIN_ON_GET)
+
+    def test_pythonanywhere_domain_is_allowed(self):
+        self.assertIn('bcervancia.pythonanywhere.com', settings.ALLOWED_HOSTS)
+        self.assertIn('https://bcervancia.pythonanywhere.com', settings.CSRF_TRUSTED_ORIGINS)
