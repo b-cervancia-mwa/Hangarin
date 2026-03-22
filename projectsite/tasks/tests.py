@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from tasks.models import Category, Priority, Task
+from tasks.models import Category, Note, Priority, SubTask, Task
 
 
 class SeededDataTests(TestCase):
@@ -30,6 +30,15 @@ class SeededDataTests(TestCase):
         self.assertEqual(task.priority.name, "high")
         self.assertEqual(task.category.name, "Projects")
 
+    def test_starter_subtask_is_seeded(self):
+        subtask = SubTask.objects.get(title="Check seeded starter records")
+        self.assertEqual(subtask.status, "Pending")
+        self.assertEqual(subtask.task.title, "Review Hangarin starter data")
+
+    def test_starter_note_is_seeded(self):
+        note = Note.objects.get(task__title="Review Hangarin starter data")
+        self.assertIn("Starter note:", note.content)
+
     def test_dashboard_renders_seeded_task(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse("home"))
@@ -54,6 +63,23 @@ class SeededDataTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Task.objects.count(), 1)
         self.assertContains(response, "Review Hangarin starter data")
+
+    def test_note_list_renders_seeded_note(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("note-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "All Notes")
+        self.assertContains(response, "Starter note:")
+
+    def test_note_list_recreates_starter_note_when_all_notes_are_deleted(self):
+        self.client.force_login(self.user)
+        Note.objects.all().delete()
+
+        response = self.client.get(reverse("note-list"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Note.objects.count(), 1)
+        self.assertContains(response, "Starter note:")
 
     def test_login_page_shows_social_login_buttons(self):
         response = self.client.get(reverse("login"))
