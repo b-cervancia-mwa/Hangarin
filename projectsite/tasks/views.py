@@ -1,28 +1,79 @@
-from django.db.models import Q
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView
+from django.db.models import Count, Q
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from tasks.defaults import ensure_default_workspace_data
 from tasks.models import Category, Task, Note, Priority, SubTask
 
+
+class WorkspaceDefaultsMixin(LoginRequiredMixin):
+    login_url = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        ensure_default_workspace_data()
+        return super().dispatch(request, *args, **kwargs)
+
+
+class HangarinLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+    http_method_names = ['get', 'post', 'head', 'options']
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
 # Home/Dashboard View
-class HomePageView(ListView):
+class HomePageView(WorkspaceDefaultsMixin, ListView):
     model = Task
     context_object_name = 'tasks'
     template_name = "home.html"
-    paginate_by = 10
+
+    def get_queryset(self):
+        return Task.objects.select_related('category', 'priority').order_by('-updated_at')[:6]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['task_count'] = Task.objects.count()
-        context['category_count'] = Category.objects.count()
-        context['priority_count'] = Priority.objects.count()
-        context['subtask_count'] = SubTask.objects.count()
-        context['note_count'] = Note.objects.count()
+        tasks = Task.objects.select_related('category', 'priority')
+        task_count = tasks.count()
+        pending_count = tasks.filter(status="Pending").count()
+        in_progress_count = tasks.filter(status="In Progress").count()
+        completed_count = tasks.filter(status="Completed").count()
+
+        def build_status_row(label, count, tone):
+            percent = round((count / task_count) * 100) if task_count else 0
+            return {
+                "label": label,
+                "count": count,
+                "percent": percent,
+                "tone": tone,
+            }
+
+        context.update({
+            'task_count': task_count,
+            'category_count': Category.objects.count(),
+            'priority_count': Priority.objects.count(),
+            'subtask_count': SubTask.objects.count(),
+            'note_count': Note.objects.count(),
+            'pending_count': pending_count,
+            'in_progress_count': in_progress_count,
+            'completed_count': completed_count,
+            'status_overview': [
+                build_status_row("Pending", pending_count, "warning"),
+                build_status_row("In Progress", in_progress_count, "info"),
+                build_status_row("Completed", completed_count, "success"),
+            ],
+            'top_categories': Category.objects.annotate(task_total=Count('task')).order_by('-task_total', 'name')[:5],
+            'recent_tasks': tasks.order_by('-updated_at')[:6],
+            'upcoming_tasks': tasks.order_by('deadline')[:5],
+            'today': timezone.localdate(),
+        })
         return context
 
 
 # Category Views
-class CategoryList(ListView):
+class CategoryList(WorkspaceDefaultsMixin, ListView):
     model = Category
     context_object_name = 'categories'
     template_name = 'category_list.html'
@@ -36,7 +87,7 @@ class CategoryList(ListView):
         return queryset
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(WorkspaceDefaultsMixin, CreateView):
     model = Category
     fields = ['name']
     template_name = 'category_form.html'
@@ -48,7 +99,7 @@ class CategoryCreateView(CreateView):
         return form
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(WorkspaceDefaultsMixin, UpdateView):
     model = Category
     fields = ['name']
     template_name = 'category_form.html'
@@ -60,14 +111,14 @@ class CategoryUpdateView(UpdateView):
         return form
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(WorkspaceDefaultsMixin, DeleteView):
     model = Category
     template_name = 'category_confirm_delete.html'
     success_url = reverse_lazy('category-list')
 
 
 # Priority Views
-class PriorityList(ListView):
+class PriorityList(WorkspaceDefaultsMixin, ListView):
     model = Priority
     context_object_name = 'priorities'
     template_name = 'priority_list.html'
@@ -81,7 +132,7 @@ class PriorityList(ListView):
         return queryset.order_by('name')
 
 
-class PriorityCreateView(CreateView):
+class PriorityCreateView(WorkspaceDefaultsMixin, CreateView):
     model = Priority
     fields = ['name']
     template_name = 'priority_form.html'
@@ -93,7 +144,7 @@ class PriorityCreateView(CreateView):
         return form
 
 
-class PriorityUpdateView(UpdateView):
+class PriorityUpdateView(WorkspaceDefaultsMixin, UpdateView):
     model = Priority
     fields = ['name']
     template_name = 'priority_form.html'
@@ -105,14 +156,14 @@ class PriorityUpdateView(UpdateView):
         return form
 
 
-class PriorityDeleteView(DeleteView):
+class PriorityDeleteView(WorkspaceDefaultsMixin, DeleteView):
     model = Priority
     template_name = 'priority_confirm_delete.html'
     success_url = reverse_lazy('priority-list')
 
 
 # Task Views
-class TaskList(ListView):
+class TaskList(WorkspaceDefaultsMixin, ListView):
     model = Task
     context_object_name = 'tasks'
     template_name = 'task_list.html'
@@ -149,7 +200,7 @@ class TaskList(ListView):
         return context
 
 
-class TaskCreateView(CreateView):
+class TaskCreateView(WorkspaceDefaultsMixin, CreateView):
     model = Task
     fields = ['title', 'description', 'deadline', 'status', 'priority', 'category']
     template_name = 'task_form.html'
@@ -166,7 +217,7 @@ class TaskCreateView(CreateView):
         return form
 
 
-class TaskUpdateView(UpdateView):
+class TaskUpdateView(WorkspaceDefaultsMixin, UpdateView):
     model = Task
     fields = ['title', 'description', 'deadline', 'status', 'priority', 'category']
     template_name = 'task_form.html'
@@ -183,14 +234,14 @@ class TaskUpdateView(UpdateView):
         return form
 
 
-class TaskDeleteView(DeleteView):
+class TaskDeleteView(WorkspaceDefaultsMixin, DeleteView):
     model = Task
     template_name = 'task_confirm_delete.html'
     success_url = reverse_lazy('task-list')
 
 
 # SubTask Views
-class SubTaskList(ListView):
+class SubTaskList(WorkspaceDefaultsMixin, ListView):
     model = SubTask
     context_object_name = 'subtasks'
     template_name = 'subtask_list.html'
@@ -215,7 +266,7 @@ class SubTaskList(ListView):
         return context
 
 
-class SubTaskCreateView(CreateView):
+class SubTaskCreateView(WorkspaceDefaultsMixin, CreateView):
     model = SubTask
     fields = ['task', 'title', 'status']
     template_name = 'subtask_form.html'
@@ -229,7 +280,7 @@ class SubTaskCreateView(CreateView):
         return form
 
 
-class SubTaskUpdateView(UpdateView):
+class SubTaskUpdateView(WorkspaceDefaultsMixin, UpdateView):
     model = SubTask
     fields = ['task', 'title', 'status']
     template_name = 'subtask_form.html'
@@ -243,14 +294,14 @@ class SubTaskUpdateView(UpdateView):
         return form
 
 
-class SubTaskDeleteView(DeleteView):
+class SubTaskDeleteView(WorkspaceDefaultsMixin, DeleteView):
     model = SubTask
     template_name = 'subtask_confirm_delete.html'
     success_url = reverse_lazy('subtask-list')
 
 
 # Note Views
-class NoteList(ListView):
+class NoteList(WorkspaceDefaultsMixin, ListView):
     model = Note
     context_object_name = 'notes'
     template_name = 'note_list.html'
@@ -267,7 +318,7 @@ class NoteList(ListView):
         return queryset.order_by('-created_at')
 
 
-class NoteCreateView(CreateView):
+class NoteCreateView(WorkspaceDefaultsMixin, CreateView):
     model = Note
     fields = ['task', 'content']
     template_name = 'note_form.html'
@@ -280,7 +331,7 @@ class NoteCreateView(CreateView):
         return form
 
 
-class NoteUpdateView(UpdateView):
+class NoteUpdateView(WorkspaceDefaultsMixin, UpdateView):
     model = Note
     fields = ['task', 'content']
     template_name = 'note_form.html'
@@ -293,7 +344,7 @@ class NoteUpdateView(UpdateView):
         return form
 
 
-class NoteDeleteView(DeleteView):
+class NoteDeleteView(WorkspaceDefaultsMixin, DeleteView):
     model = Note
     template_name = 'note_confirm_delete.html'
     success_url = reverse_lazy('note-list')

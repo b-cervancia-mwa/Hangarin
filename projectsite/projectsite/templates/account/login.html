@@ -1,0 +1,81 @@
+{% load static widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Login - Hangarin</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900">
+    <link rel="stylesheet" href="{% static 'css/ready.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body class="login-body">
+    <div class="login-scene">
+        <div class="login-noise"></div>
+        <div class="login-card-shell">
+            <div class="login-card">
+                <div class="login-card-accent"></div>
+                <div class="login-brand">
+                    <span class="login-brand-badge">Welcome Back</span>
+                    <h1>Hangarin</h1>
+                </div>
+
+                {% if form.non_field_errors %}
+                <div class="login-alert">
+                    {% for error in form.non_field_errors %}
+                    <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}" class="login-form">
+                    {% csrf_token %}
+
+                    <div class="login-field">
+                        <label for="{{ form.login.id_for_label }}">Username</label>
+                        {% render_field form.login class="auth-input" placeholder="Username" autocomplete="username" %}
+                        {% for error in form.login.errors %}
+                        <small class="field-error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="login-field">
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        {% render_field form.password class="auth-input" placeholder="Password" autocomplete="current-password" %}
+                        {% for error in form.password.errors %}
+                        <small class="field-error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+                    {% endif %}
+
+                    <button type="submit" class="login-submit">Enter Dashboard</button>
+                </form>
+
+                <div class="login-divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="social-actions">
+                    <a href="{% url 'google_login' %}" class="social-btn social-google">
+                        <i class="la la-google"></i>
+                        <span>Continue with Google</span>
+                    </a>
+                    <a href="{% url 'github_login' %}" class="social-btn social-github">
+                        <i class="la la-github"></i>
+                        <span>Continue with GitHub</span>
+                    </a>
+                </div>
+
+                <p class="login-help">
+                    Google and GitHub login use your configured OAuth app credentials and will redirect back into Hangarin.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

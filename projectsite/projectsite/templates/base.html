@@ -1,152 +1,131 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>{% block title %}Hangarin{% endblock %}</title>
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
-	<link rel="stylesheet" href="{% static 'css/ready.css' %}">
-	<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>{% block title %}Hangarin{% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static 'css/ready.css' %}">
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hangarin.css' %}">
 </head>
-<body>
-	<div class="wrapper">
-		<div class="main-header">
-			<div class="logo-header">
-				<a href="{% url 'home' %}" class="logo">
-					Hangarin
-				</a>
-				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
-			</div>
-			<nav class="navbar navbar-header navbar-expand-lg">
-				<div class="container-fluid">
-					
-					<form class="navbar-left navbar-form nav-search mr-md-3" action="">
-						<div class="input-group">
-							<input type="text" placeholder="Search tasks..." class="form-control">
-							<div class="input-group-append">
-								<span class="input-group-text">
-									<i class="la la-search search-icon"></i>
-								</span>
-							</div>
-						</div>
-					</form>
-					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item dropdown">
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="{% static 'img/profile.jpg' %}" alt="user-img" width="36" class="img-circle"><span>User</span> </a>
-							<ul class="dropdown-menu dropdown-user">
-								<li>
-									<div class="user-box">
-										<div class="u-img"><img src="{% static 'img/profile.jpg' %}" alt="user"></div>
-										<div class="u-text">
-											<h4>Task Manager</h4>
-											<p class="text-muted">Hangarin System</p></div>
-										</div>
-									</li>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="{% url 'admin:index' %}"><i class="ti-settings"></i> Admin Panel</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a>
-								</ul>
-								<!-- /.dropdown-user -->
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-			<div class="sidebar">
-				<div class="scrollbar-inner sidebar-wrapper">
-					<div class="user">
-						<div class="photo">
-							<img src="{% static 'img/profile.jpg' %}">
-						</div>
-						<div class="info">
-							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
-									User
-									<span class="user-level">Task Manager</span>
-									<span class="caret"></span>
-								</span>
-							</a>
-							<div class="clearfix"></div>
+<body class="hangarin-app">
+    {% with current_url=request.resolver_match.url_name %}
+    <div class="wrapper">
+        <div class="main-header app-header">
+            <div class="logo-header">
+                <a href="{% url 'home' %}" class="logo">
+                    Hangarin
+                </a>
+                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+            </div>
+            <nav class="navbar navbar-header navbar-expand-lg">
+                <div class="container-fluid app-header-spacer"></div>
+            </nav>
+        </div>
 
-							<div class="collapse in" id="collapseExample" aria-expanded="true" style="">
-								<ul class="nav">
-									<li>
-										<a href="{% url 'admin:index' %}">
-											<span class="link-collapse">Admin Panel</span>
-										</a>
-									</li>
-									<li>
-										<a href="{% url 'logout' %}">
-											<span class="link-collapse">Logout</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<ul class="nav">
-						<li class="nav-item">
-							<a href="{% url 'home' %}">
-								<i class="la la-dashboard"></i>
-								<p>Dashboard</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="{% url 'task-list' %}">
-								<i class="la la-check-square"></i>
-								<p>Tasks</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="{% url 'category-list' %}">
-								<i class="la la-folder"></i>
-								<p>Categories</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="{% url 'priority-list' %}">
-								<i class="la la-arrow-up"></i>
-								<p>Priorities</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="{% url 'subtask-list' %}">
-								<i class="la la-tasks"></i>
-								<p>SubTasks</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="{% url 'note-list' %}">
-								<i class="la la-sticky-note"></i>
-								<p>Notes</p>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="main-panel" style="background-color: #ADD8E6;">
-                 {% block content %}
-                 {% endblock %}
-	        </div>
+        <div class="sidebar">
+            <div class="scrollbar-inner sidebar-wrapper">
+                <div class="user app-user-card">
+                    <div class="photo">
+                        <img src="{% static 'img/profile.jpg' %}" alt="profile image">
+                    </div>
+                    <div class="info">
+                        <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                            <span>
+                                Hangarin User
+                                <span class="user-level">Task Manager</span>
+                                <span class="caret"></span>
+                            </span>
+                        </a>
+                        <div class="clearfix"></div>
 
+                        <div class="collapse in" id="collapseExample" aria-expanded="true">
+                            <ul class="nav">
+                                <li>
+                                    <a href="{% url 'admin:index' %}">
+                                        <span class="link-collapse">Admin Panel</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}" class="sidebar-logout-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="sidebar-logout-button">
+                                            <span class="link-collapse">Logout</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav app-nav">
+                    <li class="nav-item {% if current_url == 'home' %}active{% endif %}">
+                        <a href="{% url 'home' %}">
+                            <i class="la la-dashboard"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if current_url == 'task-list' or current_url == 'task-create' or current_url == 'task-update' or current_url == 'task-delete' %}active{% endif %}">
+                        <a href="{% url 'task-list' %}">
+                            <i class="la la-check-square"></i>
+                            <p>Tasks</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if current_url == 'category-list' or current_url == 'category-create' or current_url == 'category-update' or current_url == 'category-delete' %}active{% endif %}">
+                        <a href="{% url 'category-list' %}">
+                            <i class="la la-folder-open"></i>
+                            <p>Categories</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if current_url == 'priority-list' or current_url == 'priority-create' or current_url == 'priority-update' or current_url == 'priority-delete' %}active{% endif %}">
+                        <a href="{% url 'priority-list' %}">
+                            <i class="la la-signal"></i>
+                            <p>Priorities</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if current_url == 'subtask-list' or current_url == 'subtask-create' or current_url == 'subtask-update' or current_url == 'subtask-delete' %}active{% endif %}">
+                        <a href="{% url 'subtask-list' %}">
+                            <i class="la la-tasks"></i>
+                            <p>Subtasks</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {% if current_url == 'note-list' or current_url == 'note-create' or current_url == 'note-update' or current_url == 'note-delete' %}active{% endif %}">
+                        <a href="{% url 'note-list' %}">
+                            <i class="la la-sticky-note"></i>
+                            <p>Notes</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel app-main-panel">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    {% endwith %}
+
+    <script src="{% static 'js/core/jquery.3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/core/popper.min.js' %}"></script>
+    <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugin/chartist/chartist.min.js' %}"></script>
+    <script src="{% static 'js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js' %}"></script>
+    <script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+    <script src="{% static 'js/plugin/bootstrap-toggle/bootstrap-toggle.min.js' %}"></script>
+    <script src="{% static 'js/plugin/jquery-mapael/jquery.mapael.min.js' %}"></script>
+    <script src="{% static 'js/plugin/jquery-mapael/maps/world_countries.min.js' %}"></script>
+    <script src="{% static 'js/plugin/chart-circle/circles.min.js' %}"></script>
+    <script src="{% static 'js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/ready.min.js' %}"></script>
 </body>
-<script src="{% static 'js/core/jquery.3.2.1.min.js' %}"></script>
-<script src="{% static 'js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
-<script src="{% static 'js/core/popper.min.js' %}"></script>
-<script src="{% static 'js/core/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/plugin/chartist/chartist.min.js' %}"></script>
-<script src="{% static 'js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js' %}"></script>
-<script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
-<script src="{% static 'js/plugin/bootstrap-toggle/bootstrap-toggle.min.js' %}"></script>
-<script src="{% static 'js/plugin/jquery-mapael/jquery.mapael.min.js' %}"></script>
-<script src="{% static 'js/plugin/jquery-mapael/maps/world_countries.min.js' %}"></script>
-<script src="{% static 'js/plugin/chart-circle/circles.min.js' %}"></script>
-<script src="{% static 'js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
-<script src="{% static 'js/ready.min.js' %}"></script>
 </html>

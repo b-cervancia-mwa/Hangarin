@@ -1,89 +1,122 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Tasks - Hangarin{% endblock %}
 
 {% block content %}
-<div class="main-panel">
-    <div class="content" style="background-color: #ADD8E6;">
-        <div class="panel-header bg-primary-gradient">
-            <div class="page-inner py-5">
-                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-                    <div>
-                        <h2 class="text-white pb-2 fw-bold">Tasks</h2>
-                        <h5 class="text-white op-7 mb-2">Manage all your tasks</h5>
-                    </div>
-                </div>
-            </div>
+<div class="content app-content">
+    <div class="page-hero">
+        <div>
+            <span class="hero-eyebrow">Task workspace</span>
+            <h1>Tasks</h1>
+            <p>Manage all your tasks, priorities, and deadlines from one polished workspace.</p>
         </div>
-        <div class="page-inner mt--5">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="card-title">All Tasks</h4>
-                                <a href="{% url 'task-create' %}" class="btn btn-primary btn-round ml-auto">
-                                    <i class="fa fa-plus"></i> New Task
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            {% if object_list %}
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Status</th>
-                                                <th>Category</th>
-                                                <th>Priority</th>
-                                                <th>Deadline</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for task in object_list %}
-                                            <tr>
-                                                <td><strong>{{ task.title }}</strong></td>
-                                                <td>
-                                                    <span class="badge badge-{% if task.status == 'Completed' %}success{% elif task.status == 'In Progress' %}info{% else %}secondary{% endif %}">
-                                                        {{ task.status }}
-                                                    </span>
-                                                </td>
-                                                <td>{{ task.category.name|default:"—" }}</td>
-                                                <td>
-                                                    {% if task.priority %}
-                                                        <span class="badge badge-warning">{{ task.priority.name }}</span>
-                                                    {% else %}
-                                                        <span class="text-muted">—</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ task.deadline|date:"M d, Y" }}</td>
-                                                <td>
-                                                    <a href="{% url 'task-update' task.pk %}" class="btn btn-sm btn-info">Edit</a>
-                                                    <a href="{% url 'task-delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                {% if is_paginated %}
-                                    {% include 'includes/pagination.html' %}
-                                {% endif %}
-                            {% else %}
-                                <div class="text-center py-5">
-                                    <h5>No tasks found</h5>
-                                    <p>Create your first task</p>
-                                    <a href="{% url 'task-create' %}" class="btn btn-primary">Create Task</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+        <div class="page-hero-actions">
+            <div class="metric-chip">
+                <span>Total tasks</span>
+                <strong>{{ page_obj.paginator.count }}</strong>
             </div>
+            <a href="{% url 'task-create' %}" class="btn btn-primary hero-btn">New Task</a>
         </div>
     </div>
+
+    <section class="dashboard-panel table-panel">
+        <div class="panel-heading">
+            <div>
+                <span class="panel-kicker">Task inventory</span>
+                <h2>All Tasks</h2>
+            </div>
+            <span class="panel-pill">Search and filter instantly</span>
+        </div>
+
+        <form method="get" class="task-filter-grid">
+            <div class="filter-field filter-field-wide">
+                <label for="task-search">Search</label>
+                <input id="task-search" type="text" name="q" value="{{ request.GET.q }}" class="form-control" placeholder="Find a task title or description">
+            </div>
+            <div class="filter-field">
+                <label for="task-status">Status</label>
+                <select id="task-status" name="status" class="form-control">
+                    <option value="">All statuses</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}"{% if request.GET.status == value %} selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="task-priority">Priority</label>
+                <select id="task-priority" name="priority" class="form-control">
+                    <option value="">All priorities</option>
+                    {% for priority in priorities %}
+                    <option value="{{ priority.id }}"{% if request.GET.priority == priority.id|stringformat:"s" %} selected{% endif %}>{{ priority.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="task-category">Category</label>
+                <select id="task-category" name="category" class="form-control">
+                    <option value="">All categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}"{% if request.GET.category == category.id|stringformat:"s" %} selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-primary hero-btn">Apply</button>
+                <a href="{% url 'task-list' %}" class="btn btn-light hero-btn hero-btn-secondary">Reset</a>
+            </div>
+        </form>
+
+        {% if object_list %}
+        <div class="table-responsive dashboard-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Deadline</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in object_list %}
+                    <tr>
+                        <td>
+                            <strong>{{ task.title }}</strong>
+                            <span class="table-subtext">{{ task.description|truncatewords:10 }}</span>
+                        </td>
+                        <td>
+                            <span class="status-pill status-{{ task.status|slugify }}">{{ task.status }}</span>
+                        </td>
+                        <td>{{ task.category.name|default:"-" }}</td>
+                        <td>
+                            {% if task.priority %}
+                            <span class="priority-pill">{{ task.priority.name }}</span>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td>{{ task.deadline|date:"M d, Y" }}</td>
+                        <td class="table-actions">
+                            <a href="{% url 'task-update' task.pk %}" class="btn btn-sm btn-info">Edit</a>
+                            <a href="{% url 'task-delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if is_paginated %}
+        {% include 'includes/pagination.html' %}
+        {% endif %}
+        {% else %}
+        <div class="empty-block">
+            <h5>No tasks found</h5>
+            <p>Create your first task to start building your dashboard.</p>
+            <a href="{% url 'task-create' %}" class="btn btn-primary hero-btn">Create Task</a>
+        </div>
+        {% endif %}
+    </section>
 </div>
 {% endblock %}

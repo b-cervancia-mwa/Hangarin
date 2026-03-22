@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-p5(#zhacuks8ik!%83p-4u=ryg@#)i_=l&833i$_oni-mfhjzm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -36,8 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
     'tasks.apps.TasksConfig',
     'widget_tweaks',
 ]
@@ -48,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -70,6 +77,56 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'projectsite.wsgi.application'
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_ADAPTER = 'tasks.adapters.HangarinSocialAccountAdapter'
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+
+def _social_app_from_env(prefix):
+    client_id = os.getenv(f'{prefix}_CLIENT_ID')
+    secret = os.getenv(f'{prefix}_CLIENT_SECRET')
+    if client_id and secret:
+        return {
+            'client_id': client_id,
+            'secret': secret,
+            'key': '',
+        }
+    return None
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
+    'github': {
+        'SCOPE': ['user:email'],
+    },
+}
+
+google_app = _social_app_from_env('GOOGLE')
+github_app = _social_app_from_env('GITHUB')
+
+if google_app:
+    SOCIALACCOUNT_PROVIDERS['google']['APP'] = google_app
+
+if github_app:
+    SOCIALACCOUNT_PROVIDERS['github']['APP'] = github_app
 
 
 # Database
