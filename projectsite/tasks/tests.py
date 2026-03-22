@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from tasks.defaults import DEFAULT_WORKSPACE_TASKS, ensure_default_workspace_data
 from tasks.models import Category, Note, Priority, SubTask, Task
 
 
@@ -13,6 +14,7 @@ class SeededDataTests(TestCase):
             username='hangarinuser',
             password='hangarinpass123',
         )
+        ensure_default_workspace_data()
 
     def test_required_priorities_are_seeded(self):
         expected = {"high", "medium", "low", "critical", "optional"}
@@ -30,6 +32,11 @@ class SeededDataTests(TestCase):
         self.assertEqual(task.priority.name, "high")
         self.assertEqual(task.category.name, "Projects")
 
+    def test_default_workspace_seeds_multiple_tasks(self):
+        self.assertEqual(Task.objects.count(), len(DEFAULT_WORKSPACE_TASKS))
+        self.assertTrue(Task.objects.filter(title="Prepare team meeting agenda").exists())
+        self.assertTrue(Task.objects.filter(title="Finalize project milestone board").exists())
+
     def test_starter_subtask_is_seeded(self):
         subtask = SubTask.objects.get(title="Check seeded starter records")
         self.assertEqual(subtask.status, "Pending")
@@ -45,6 +52,7 @@ class SeededDataTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Latest Task Updates")
         self.assertContains(response, "Review Hangarin starter data")
+        self.assertContains(response, "Prepare team meeting agenda")
         self.assertContains(response, "Search tasks...")
 
     def test_task_list_renders_seeded_task(self):
@@ -53,6 +61,7 @@ class SeededDataTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "All Tasks")
         self.assertContains(response, "Review Hangarin starter data")
+        self.assertContains(response, "Finalize project milestone board")
 
     def test_task_list_recreates_starter_task_when_all_tasks_are_deleted(self):
         self.client.force_login(self.user)
@@ -61,7 +70,9 @@ class SeededDataTests(TestCase):
         response = self.client.get(reverse("task-list"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Task.objects.count(), 1)
+        self.assertEqual(Task.objects.count(), len(DEFAULT_WORKSPACE_TASKS))
+        self.assertEqual(Note.objects.count(), len(DEFAULT_WORKSPACE_TASKS))
+        self.assertGreaterEqual(SubTask.objects.count(), len(DEFAULT_WORKSPACE_TASKS))
         self.assertContains(response, "Review Hangarin starter data")
 
     def test_note_list_renders_seeded_note(self):
@@ -78,7 +89,7 @@ class SeededDataTests(TestCase):
         response = self.client.get(reverse("note-list"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Note.objects.count(), 1)
+        self.assertEqual(Note.objects.count(), len(DEFAULT_WORKSPACE_TASKS))
         self.assertContains(response, "Starter note:")
 
     def test_login_page_shows_social_login_buttons(self):
