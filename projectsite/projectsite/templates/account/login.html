@@ -62,15 +62,21 @@
                     <form method="post" action="{% url 'google_login' %}" class="social-form">
                         {% csrf_token %}
                         <button type="submit" class="social-btn social-submit social-google">
-                            <i class="la la-google"></i>
-                            <span>Continue with Google</span>
+                            <span class="social-icon-wrap" aria-hidden="true">
+                                <i class="la la-google"></i>
+                            </span>
+                            <span class="social-label">Continue with Google</span>
+                            <span class="social-spacer" aria-hidden="true"></span>
                         </button>
                     </form>
                     <form method="post" action="{% url 'github_login' %}" class="social-form">
                         {% csrf_token %}
                         <button type="submit" class="social-btn social-submit social-github">
-                            <i class="la la-github"></i>
-                            <span>Continue with GitHub</span>
+                            <span class="social-icon-wrap" aria-hidden="true">
+                                <i class="la la-github"></i>
+                            </span>
+                            <span class="social-label">Continue with GitHub</span>
+                            <span class="social-spacer" aria-hidden="true"></span>
                         </button>
                     </form>
                 </div>
