@@ -1,0 +1,41 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>{% trans "Continue Sign In" %} - Hangarin</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900">
+    <link rel="stylesheet" href="{% static 'css/ready.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body class="login-body">
+    <div class="login-scene">
+        <div class="login-noise"></div>
+        <div class="login-card-shell">
+            <div class="login-card">
+                <div class="login-brand">
+                    <h1>Hangarin</h1>
+                </div>
+
+                <div class="social-confirm-copy">
+                    {% if process == "connect" %}
+                    <h2>{% trans "Connect" %} <span class="social-confirm-provider">{{ provider.name }}</span></h2>
+                    <p>{% blocktrans with provider.name as provider_name %}Continue to connect your {{ provider_name }} account to Hangarin.{% endblocktrans %}</p>
+                    {% else %}
+                    <h2>{% trans "Continue with" %} <span class="social-confirm-provider">{{ provider.name }}</span></h2>
+                    <p>{% blocktrans with provider.name as provider_name %}Continue to {{ provider_name }} to finish signing in to Hangarin.{% endblocktrans %}</p>
+                    {% endif %}
+                </div>
+
+                <form method="post" class="login-form">
+                    {% csrf_token %}
+                    <button type="submit" class="login-submit">{% trans "Continue" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

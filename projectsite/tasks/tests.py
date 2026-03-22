@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -59,6 +60,7 @@ class SeededDataTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Continue with Google")
         self.assertContains(response, "Continue with GitHub")
+        self.assertNotContains(response, "Google and GitHub login use your configured OAuth app credentials")
 
     def test_dashboard_requires_login(self):
         response = self.client.get(reverse("home"))
@@ -74,3 +76,6 @@ class SeededDataTests(TestCase):
         follow_up = self.client.get(reverse("home"))
         self.assertEqual(follow_up.status_code, 302)
         self.assertIn('/login/', follow_up.url)
+
+    def test_social_login_skips_confirmation_page(self):
+        self.assertTrue(settings.SOCIALACCOUNT_LOGIN_ON_GET)

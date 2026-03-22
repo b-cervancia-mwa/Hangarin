@@ -74,36 +74,13 @@ body.login-body {
     position: relative;
 }
 
-.login-card-accent {
-    position: absolute;
-    top: 0;
-    left: 24px;
-    right: 24px;
-    height: 5px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #2f5cff, #2aa8ff);
-}
-
 .login-brand {
     text-align: center;
     margin-bottom: 26px;
 }
 
-.login-brand-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 7px 14px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
 .login-brand h1 {
-    margin: 16px 0 0;
+    margin: 0;
     font-size: clamp(2.6rem, 7vw, 3.35rem);
     font-weight: 900;
     letter-spacing: -0.04em;
@@ -125,9 +102,9 @@ body.login-body {
 .login-field label {
     display: block;
     margin-bottom: 8px;
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 13px;
-    font-weight: 700;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 900;
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
@@ -244,20 +221,36 @@ body.login-body {
     color: #d3d8e3;
 }
 
-.login-help {
-    margin: 18px 4px 0;
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.95rem;
-    line-height: 1.5;
-    text-align: center;
-}
-
 .field-error {
     display: block;
     margin-top: 8px;
     color: #ffb7be;
     font-size: 0.86rem;
     font-weight: 700;
+}
+
+.social-confirm-copy {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.social-confirm-copy h2 {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+}
+
+.social-confirm-copy p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.social-confirm-provider {
+    color: #8bd2ff;
 }
 
 @media (max-width: 575px) {
