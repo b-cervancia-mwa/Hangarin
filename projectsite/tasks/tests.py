@@ -1,4 +1,7 @@
+from io import StringIO
+
 from django.conf import settings
+from django.core.management import call_command
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -25,6 +28,14 @@ class SeededDataTests(TestCase):
         expected = {"Work", "School", "Personal", "Finance", "Projects"}
         actual = set(Category.objects.values_list("name", flat=True))
         self.assertTrue(expected.issubset(actual))
+
+    def test_priority_and_category_inherit_timestamps(self):
+        category = Category.objects.get(name="Work")
+        priority = Priority.objects.get(name="high")
+        self.assertIsNotNone(category.created_at)
+        self.assertIsNotNone(category.updated_at)
+        self.assertIsNotNone(priority.created_at)
+        self.assertIsNotNone(priority.updated_at)
 
     def test_starter_task_is_seeded(self):
         task = Task.objects.get(title="Review Hangarin starter data")
@@ -120,3 +131,20 @@ class SeededDataTests(TestCase):
     def test_pythonanywhere_domain_is_allowed(self):
         self.assertIn('bcervancia.pythonanywhere.com', settings.ALLOWED_HOSTS)
         self.assertIn('https://bcervancia.pythonanywhere.com', settings.CSRF_TRUSTED_ORIGINS)
+
+    def test_seed_data_command_creates_fake_records_without_existing_lookups(self):
+        Task.objects.all().delete()
+        Note.objects.all().delete()
+        SubTask.objects.all().delete()
+        Category.objects.all().delete()
+        Priority.objects.all().delete()
+
+        stdout = StringIO()
+        call_command("seed_data", stdout=stdout)
+
+        self.assertEqual(Priority.objects.count(), 5)
+        self.assertEqual(Category.objects.count(), 5)
+        self.assertEqual(Task.objects.count(), 20)
+        self.assertGreater(Note.objects.count(), 0)
+        self.assertGreater(SubTask.objects.count(), 0)
+        self.assertIn("Fake data generated successfully.", stdout.getvalue())

@@ -1,0 +1,4 @@
+Django==5.2.12
+django-allauth[socialaccount]==65.15.0
+django-widget-tweaks==1.5.1
+Faker==40.11.0

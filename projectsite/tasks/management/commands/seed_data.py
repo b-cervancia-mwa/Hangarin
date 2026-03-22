@@ -3,7 +3,8 @@ from django.utils import timezone
 from faker import Faker
 import random
 
-from tasks.models import Task, SubTask, Note, Priority, Category
+from tasks.defaults import ensure_default_lookup_data
+from tasks.models import Note, SubTask, Task
 
 
 class Command(BaseCommand):
@@ -12,14 +13,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
 
-        priorities = list(Priority.objects.all())
-        categories = list(Category.objects.all())
-
-        if not priorities or not categories:
-            self.stdout.write(self.style.ERROR(
-                "Please add Priority and Category records first in admin."
-            ))
-            return
+        priorities_map, categories_map = ensure_default_lookup_data()
+        priorities = list(priorities_map.values())
+        categories = list(categories_map.values())
 
         for _ in range(20):
             task = Task.objects.create(

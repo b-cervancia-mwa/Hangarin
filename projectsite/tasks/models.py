@@ -10,7 +10,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Category(models.Model):
+class Category(BaseModel):
     name = models.CharField(max_length=100, unique=True)
 
     class Meta:
@@ -21,7 +21,7 @@ class Category(models.Model):
         return self.name
 
 
-class Priority(models.Model):
+class Priority(BaseModel):
     name = models.CharField(max_length=100, unique=True)
 
     class Meta:

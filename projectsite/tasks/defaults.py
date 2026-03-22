@@ -111,7 +111,7 @@ DEFAULT_WORKSPACE_TASKS = [
 DEFAULT_WORKSPACE_TITLES = [item["title"] for item in DEFAULT_WORKSPACE_TASKS]
 
 
-def _ensure_default_lookups():
+def ensure_default_lookup_data():
     priorities = {
         name: Priority.objects.get_or_create(name=name)[0]
         for name in DEFAULT_PRIORITY_NAMES
@@ -150,7 +150,7 @@ def _create_seeded_workspace(priorities, categories):
 
 
 def ensure_default_workspace_data():
-    priorities, categories = _ensure_default_lookups()
+    priorities, categories = ensure_default_lookup_data()
 
     has_user_tasks = Task.objects.exclude(title__in=DEFAULT_WORKSPACE_TITLES).exists()
 
