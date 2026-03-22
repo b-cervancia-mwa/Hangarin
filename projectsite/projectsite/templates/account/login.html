@@ -59,14 +59,20 @@
                 </div>
 
                 <div class="social-actions">
-                    <a href="{% url 'google_login' %}" class="social-btn social-google">
-                        <i class="la la-google"></i>
-                        <span>Continue with Google</span>
-                    </a>
-                    <a href="{% url 'github_login' %}" class="social-btn social-github">
-                        <i class="la la-github"></i>
-                        <span>Continue with GitHub</span>
-                    </a>
+                    <form method="post" action="{% url 'google_login' %}" class="social-form">
+                        {% csrf_token %}
+                        <button type="submit" class="social-btn social-submit social-google">
+                            <i class="la la-google"></i>
+                            <span>Continue with Google</span>
+                        </button>
+                    </form>
+                    <form method="post" action="{% url 'github_login' %}" class="social-form">
+                        {% csrf_token %}
+                        <button type="submit" class="social-btn social-submit social-github">
+                            <i class="la la-github"></i>
+                            <span>Continue with GitHub</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
