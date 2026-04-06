@@ -214,21 +214,21 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/img/icon-192.png',
+        'src': '/static/img/Hangarinicon.png',
         'sizes': '192x192',
     },
     {
-        'src': '/static/img/icon-512.png',
+        'src': '/static/img/iconII.png',
         'sizes': '512x512',
     },
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/img/icon-192.png',
+        'src': '/static/img/Hangarinicon.png',
         'sizes': '192x192',
     },
     {
-        'src': '/static/img/icon-512.png',
+        'src': '/static/img/iconII.png',
         'sizes': '512x512',
     },
 ]
