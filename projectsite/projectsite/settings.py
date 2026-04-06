@@ -214,11 +214,11 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/img/iconic.png',
+        'src': '/static/img/Cat.png',
         'sizes': '192x192',
     },
     {
-        'src': '/static/img/heart.png',
+        'src': '/static/img/Clover.png',
         'sizes': '512x512',
     },
 ]
