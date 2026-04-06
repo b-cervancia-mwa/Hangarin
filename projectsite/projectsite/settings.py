@@ -203,7 +203,7 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Progressive Web App (PWA) settings
-PWA_APP_NAME = 'ProjectSite'
+PWA_APP_NAME = 'projectsite'
 PWA_APP_DESCRIPTION = 'A Progressive Web App version of ProjectSite'
 PWA_APP_THEME_COLOR = '#0A0A0A'
 PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
@@ -214,21 +214,21 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/img/Hangarinicon.png',
+        'src': '/static/img/iconic.png',
         'sizes': '192x192',
     },
     {
-        'src': '/static/img/iconII.png',
+        'src': '/static/img/heart.png',
         'sizes': '512x512',
     },
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/img/Hangarinicon.png',
+        'src': '/static/img/iconic.png',
         'sizes': '192x192',
     },
     {
-        'src': '/static/img/iconII.png',
+        'src': '/static/img/heart.png',
         'sizes': '512x512',
     },
 ]
