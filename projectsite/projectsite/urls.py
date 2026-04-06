@@ -14,7 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from allauth.account.views import LoginView
 from tasks.views import (
@@ -44,6 +46,7 @@ from tasks.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('pwa.urls')),
     path('accounts/', include('allauth.urls')),
     path('login/', LoginView.as_view(template_name='account/login.html'), name='login'),
     path('logout/', HangarinLogoutView.as_view(), name='logout'),
@@ -74,3 +77,6 @@ urlpatterns = [
     path('subtasks/<int:pk>/edit/', SubTaskUpdateView.as_view(), name='subtask-update'),
     path('subtasks/<int:pk>/delete/', SubTaskDeleteView.as_view(), name='subtask-delete'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()

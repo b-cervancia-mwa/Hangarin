@@ -1,0 +1,733 @@
+:root {
+    --hangarin-bg: #add8e6;
+    --hangarin-panel: #ffffff;
+    --hangarin-panel-soft: #f4f8ff;
+    --hangarin-border: #d8e5f3;
+    --hangarin-text: #575962;
+    --hangarin-heading: #2f3c5a;
+    --hangarin-primary: #1572e8;
+    --hangarin-primary-light: #48abf7;
+    --hangarin-info: #23ccef;
+    --hangarin-success: #59d05d;
+    --hangarin-warning: #fbad4c;
+    --hangarin-danger: #ff646d;
+    --hangarin-shadow: 0 12px 30px rgba(22, 114, 232, 0.14);
+}
+
+.hangarin-app {
+    font-family: "Nunito", sans-serif;
+    background: #ffffff;
+    color: var(--hangarin-text);
+}
+
+.hangarin-app .wrapper {
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+.hangarin-app .main-header {
+    background: #ffffff;
+    border-bottom: 1px solid #eef1f7;
+    box-shadow: 0 2px 12px rgba(87, 89, 98, 0.05);
+}
+
+.hangarin-app .logo-header {
+    background: #ffffff;
+    border-right: 1px solid #eef1f7;
+}
+
+.hangarin-app .logo {
+    color: #2f4b9f !important;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.hangarin-app .navbar-header {
+    background: #ffffff;
+}
+
+.hangarin-app .app-header-spacer {
+    min-height: 74px;
+}
+
+.hangarin-app .app-search .input-group {
+    width: min(420px, 100%);
+    border-radius: 40px;
+    overflow: hidden;
+    background: #eef3fb;
+    border: 1px solid #d6dfef;
+}
+
+.hangarin-app .app-search .form-control,
+.hangarin-app .app-search .input-group-text {
+    height: 46px;
+    border: 0;
+    background: transparent;
+}
+
+.hangarin-app .app-search .form-control {
+    color: var(--hangarin-text);
+    font-weight: 600;
+}
+
+.hangarin-app .app-search .input-group-text {
+    color: var(--hangarin-primary);
+}
+
+.hangarin-app .topbar-nav .profile-pic {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #eef3fb;
+    color: var(--hangarin-text) !important;
+}
+
+.hangarin-app .topbar-nav .profile-pic span {
+    color: var(--hangarin-text);
+    font-weight: 700;
+}
+
+.hangarin-app .dropdown-user {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.hangarin-app .sidebar {
+    background: #ffffff;
+}
+
+.hangarin-app .sidebar-wrapper {
+    background: #ffffff;
+    border-right: 1px solid #eef1f7;
+}
+
+.hangarin-app .app-user-card {
+    margin: 18px;
+    padding: 16px;
+    border: 1px solid #dfe8f5;
+    border-radius: 24px;
+    background: #f7fbff;
+    box-shadow: 0 6px 18px rgba(87, 89, 98, 0.06);
+}
+
+.hangarin-app .app-user-card .photo {
+    width: 56px;
+    height: 56px;
+}
+
+.hangarin-app .app-user-card .info a > span {
+    color: var(--hangarin-heading);
+    font-weight: 800;
+}
+
+.hangarin-app .app-user-card .user-level,
+.hangarin-app .sidebar .link-collapse,
+.hangarin-app .sidebar .nav p {
+    color: #6f7a90 !important;
+}
+
+.hangarin-app .sidebar-logout-form {
+    margin: 0;
+}
+
+.hangarin-app .sidebar-logout-button {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.hangarin-app .sidebar-logout-button .link-collapse {
+    display: block;
+    width: 100%;
+}
+
+.hangarin-app .app-nav {
+    padding: 10px 14px 22px;
+}
+
+.hangarin-app .sidebar .nav-item {
+    margin-bottom: 10px;
+}
+
+.hangarin-app .sidebar .nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 22px;
+    color: #5f7399 !important;
+    transition: all 0.2s ease;
+}
+
+.hangarin-app .sidebar .nav-item a i {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    border-radius: 16px;
+    background: #e7f0ff;
+    color: var(--hangarin-primary);
+    font-size: 1.1rem;
+}
+
+.hangarin-app .sidebar .nav-item a p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.hangarin-app .sidebar .nav-item a:hover,
+.hangarin-app .sidebar .nav-item.active a {
+    background: linear-gradient(135deg, var(--hangarin-primary), var(--hangarin-primary-light));
+    box-shadow: var(--hangarin-shadow);
+}
+
+.hangarin-app .sidebar .nav-item a:hover i,
+.hangarin-app .sidebar .nav-item.active a i {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+.hangarin-app .sidebar .nav-item a:hover p,
+.hangarin-app .sidebar .nav-item.active a p {
+    color: #ffffff !important;
+}
+
+.hangarin-app .app-main-panel,
+.hangarin-app .content,
+.hangarin-app .content.app-content {
+    background: var(--hangarin-bg);
+}
+
+.hangarin-app .content,
+.hangarin-app .content.app-content {
+    min-height: calc(100vh - 74px);
+    padding: 28px;
+}
+
+.hangarin-app .dashboard-toolbar {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+}
+
+.hangarin-app .dashboard-search {
+    width: min(440px, 100%);
+}
+
+.hangarin-app .dashboard-search .input-group {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 22px rgba(87, 89, 98, 0.08);
+}
+
+.hangarin-app .main-panel > .main-panel {
+    width: auto !important;
+    margin-left: 0 !important;
+    float: none !important;
+    min-height: auto !important;
+    background: transparent !important;
+}
+
+.hangarin-app .dashboard-hero,
+.hangarin-app .page-hero,
+.hangarin-app .panel-header {
+    margin-bottom: 24px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, var(--hangarin-primary) 0%, var(--hangarin-primary-light) 100%);
+    box-shadow: var(--hangarin-shadow);
+    color: #ffffff;
+}
+
+.hangarin-app .dashboard-hero,
+.hangarin-app .page-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(220px, 0.9fr);
+    gap: 24px;
+    padding: 30px 34px;
+}
+
+.hangarin-app .panel-header .page-inner {
+    padding: 30px 34px !important;
+}
+
+.hangarin-app .hero-eyebrow,
+.hangarin-app .panel-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hangarin-app .dashboard-hero h1,
+.hangarin-app .page-hero h1,
+.hangarin-app .panel-header h2 {
+    margin: 14px 0 10px;
+    color: #ffffff;
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.hangarin-app .dashboard-hero p,
+.hangarin-app .page-hero p,
+.hangarin-app .panel-header h5 {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+}
+
+.hangarin-app .hero-actions,
+.hangarin-app .page-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.hangarin-app .btn {
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.hangarin-app .hero-btn.btn.btn-primary {
+    background: var(--hangarin-primary) !important;
+    border-color: var(--hangarin-primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 24px rgba(21, 114, 232, 0.2);
+}
+
+.hangarin-app .hero-btn.hero-btn-secondary {
+    background: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: var(--hangarin-primary) !important;
+}
+
+.hangarin-app .hero-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-content: start;
+}
+
+.hangarin-app .hero-mini-card,
+.hangarin-app .metric-chip {
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.hangarin-app .hero-mini-card span,
+.hangarin-app .metric-chip span {
+    display: block;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hangarin-app .hero-mini-card strong,
+.hangarin-app .metric-chip strong {
+    color: #ffffff;
+    font-size: 1.85rem;
+    font-weight: 800;
+}
+
+.hangarin-app .dashboard-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.hangarin-app .metric-card,
+.hangarin-app .dashboard-panel,
+.hangarin-app .card {
+    background: var(--hangarin-panel);
+    border: 1px solid rgba(216, 229, 243, 0.9);
+    border-radius: 24px;
+    box-shadow: 0 8px 22px rgba(87, 89, 98, 0.08);
+}
+
+.hangarin-app .metric-card {
+    padding: 18px 20px;
+    border-top: 4px solid var(--hangarin-primary);
+}
+
+.hangarin-app .metric-card:nth-child(2) {
+    border-top-color: var(--hangarin-warning);
+}
+
+.hangarin-app .metric-card:nth-child(3) {
+    border-top-color: var(--hangarin-info);
+}
+
+.hangarin-app .metric-card:nth-child(4) {
+    border-top-color: var(--hangarin-success);
+}
+
+.hangarin-app .metric-card span {
+    display: block;
+    margin-bottom: 6px;
+    color: #7b8cae;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hangarin-app .metric-card strong {
+    color: var(--hangarin-heading);
+    font-size: 1.9rem;
+    font-weight: 800;
+}
+
+.hangarin-app .dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+}
+
+.hangarin-app .dashboard-panel {
+    padding: 22px;
+}
+
+.hangarin-app .card {
+    overflow: hidden;
+}
+
+.hangarin-app .card-header,
+.hangarin-app .card-body {
+    background: transparent;
+}
+
+.hangarin-app .card-header {
+    padding: 22px 24px 12px;
+    border-bottom: 1px solid #ecf1f8;
+}
+
+.hangarin-app .card-body {
+    padding: 18px 24px 24px;
+}
+
+.hangarin-app .card-title,
+.hangarin-app .dashboard-panel h2,
+.hangarin-app .card h4 {
+    margin: 0;
+    color: var(--hangarin-heading);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.hangarin-app .card-title,
+.hangarin-app .card h4 {
+    font-size: 28px;
+}
+
+.hangarin-app .dashboard-panel h2 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.hangarin-app .panel-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.hangarin-app .panel-kicker {
+    background: #eef5ff;
+    color: var(--hangarin-primary);
+}
+
+.hangarin-app .panel-pill {
+    white-space: nowrap;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #eef3ff;
+    color: #5d6eff;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.hangarin-app .progress-item {
+    margin-bottom: 16px;
+}
+
+.hangarin-app .progress-item:last-child {
+    margin-bottom: 0;
+}
+
+.hangarin-app .progress-item-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #7b8cae;
+}
+
+.hangarin-app .progress-item-meta strong {
+    color: var(--hangarin-heading);
+}
+
+.hangarin-app .progress-track {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: #e8eef6;
+    overflow: hidden;
+}
+
+.hangarin-app .progress-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.hangarin-app .progress-warning {
+    background: var(--hangarin-warning);
+}
+
+.hangarin-app .progress-info {
+    background: var(--hangarin-info);
+}
+
+.hangarin-app .progress-success {
+    background: var(--hangarin-success);
+}
+
+.hangarin-app .category-stack,
+.hangarin-app .deadline-list {
+    display: grid;
+    gap: 12px;
+}
+
+.hangarin-app .category-row,
+.hangarin-app .deadline-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: var(--hangarin-panel-soft);
+    border: 1px solid var(--hangarin-border);
+}
+
+.hangarin-app .category-row span,
+.hangarin-app .deadline-card p,
+.hangarin-app .table-subtext {
+    color: #6f7a90;
+}
+
+.hangarin-app .category-row strong,
+.hangarin-app .deadline-card strong {
+    color: var(--hangarin-heading);
+}
+
+.hangarin-app .dashboard-table thead th,
+.hangarin-app .table-panel thead th {
+    border-top: 0;
+    border-bottom: 1px solid #ecf1f8;
+    color: #7d8fb5;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.hangarin-app .dashboard-table tbody td,
+.hangarin-app .table-panel tbody td {
+    vertical-align: middle;
+    border-color: #edf2f8;
+    color: var(--hangarin-heading);
+    font-weight: 600;
+}
+
+.hangarin-app .table-panel tbody tr:hover,
+.hangarin-app .dashboard-table tbody tr:hover {
+    background: #f9fbff;
+}
+
+.hangarin-app .table-subtext {
+    display: block;
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hangarin-app .table-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.hangarin-app .table-actions .btn {
+    margin-left: 8px;
+}
+
+.hangarin-app .status-pill,
+.hangarin-app .priority-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.hangarin-app .status-pending {
+    background: rgba(251, 173, 76, 0.2);
+    color: #d98217;
+}
+
+.hangarin-app .status-in-progress {
+    background: rgba(35, 204, 239, 0.18);
+    color: #0ea5c0;
+}
+
+.hangarin-app .status-completed {
+    background: rgba(89, 208, 93, 0.18);
+    color: #2e9f34;
+}
+
+.hangarin-app .priority-pill {
+    background: rgba(251, 173, 76, 0.2);
+    color: #d98217;
+}
+
+.hangarin-app .task-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) repeat(3, minmax(160px, 1fr));
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 22px;
+}
+
+.hangarin-app .filter-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4c4f58;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.hangarin-app .filter-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.hangarin-app .form-control,
+.hangarin-app select.form-control {
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #cfe0f7;
+    background: #ffffff;
+    color: var(--hangarin-text);
+    box-shadow: none;
+}
+
+.hangarin-app textarea.form-control {
+    min-height: 140px;
+}
+
+.hangarin-app .form-control:focus {
+    border-color: #8dc5ff;
+    box-shadow: 0 0 0 3px rgba(72, 171, 247, 0.12);
+}
+
+.hangarin-app .empty-block,
+.hangarin-app .empty-table {
+    padding: 24px;
+    text-align: center;
+    color: #7d8fb5;
+}
+
+.hangarin-app .pagination {
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.hangarin-app .pagination .page-link {
+    border-radius: 999px !important;
+    color: var(--hangarin-primary);
+    border-color: #d8e5f3;
+    background: #ffffff;
+}
+
+.hangarin-app .pagination .active .page-link {
+    background: var(--hangarin-primary);
+    border-color: var(--hangarin-primary);
+    color: #ffffff;
+}
+
+@media (max-width: 1200px) {
+    .hangarin-app .dashboard-grid,
+    .hangarin-app .dashboard-hero,
+    .hangarin-app .page-hero,
+    .hangarin-app .task-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hangarin-app .page-hero-actions,
+    .hangarin-app .filter-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 991px) {
+    .hangarin-app .content,
+    .hangarin-app .content.app-content {
+        padding: 18px;
+    }
+
+    .hangarin-app .dashboard-metric-grid,
+    .hangarin-app .hero-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575px) {
+    .hangarin-app .dashboard-metric-grid,
+    .hangarin-app .hero-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hangarin-app .dashboard-hero,
+    .hangarin-app .page-hero,
+    .hangarin-app .panel-header .page-inner {
+        padding: 22px !important;
+    }
+
+    .hangarin-app .panel-heading,
+    .hangarin-app .deadline-card,
+    .hangarin-app .category-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

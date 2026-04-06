@@ -28,7 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-p5(#zhacuks8ik!%83p-4u=ryg@#)i_=l&833i$_oni-mfhjzm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = _env_flag("DJANGO_DEBUG", False)
+# Default to True for local development unless DJANGO_DEBUG is explicitly configured.
+DEBUG = _env_flag("DJANGO_DEBUG", True)
 
 DEFAULT_ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'bcervancia.pythonanywhere.com']
 extra_allowed_hosts = [
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'tasks.apps.TasksConfig',
     'widget_tweaks',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -190,7 +192,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
@@ -199,3 +201,36 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Progressive Web App (PWA) settings
+PWA_APP_NAME = 'ProjectSite'
+PWA_APP_DESCRIPTION = 'A Progressive Web App version of ProjectSite'
+PWA_APP_THEME_COLOR = '#0A0A0A'
+PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/img/icon-192.png',
+        'sizes': '192x192',
+    },
+    {
+        'src': '/static/img/icon-512.png',
+        'sizes': '512x512',
+    },
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/img/icon-192.png',
+        'sizes': '192x192',
+    },
+    {
+        'src': '/static/img/icon-512.png',
+        'sizes': '512x512',
+    },
+]
+PWA_APP_DIR = 'ltr'
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
